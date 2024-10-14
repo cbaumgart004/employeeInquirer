@@ -3,7 +3,7 @@ const pool = require('./db') // Import the pool for database queries
 //import functions for each inquirer prompt from helper functions below
 const { viewEmployees, addEmployee } = require('./lib/employee')
 const { viewRoles } = require('./lib/role')
-const { viewDepartments } = require('./lib/department')
+const { viewDepartments, addDepartment } = require('./lib/department')
 
 //function to start inquirer and handle user choices
 const mainMenu = async () => {
@@ -17,7 +17,7 @@ const mainMenu = async () => {
         'View roles',
         'View departments',
         'Add employee',
-
+        'Add department',
         'Update employee',
         'Delete employee',
         'Exit',
@@ -42,10 +42,16 @@ const mainMenu = async () => {
       await addEmployee()
       break
 
+    case 'Add department':
+      const { name } = await inquirer.prompt([
+        { name: 'name', message: 'Enter the name of the new department:' },
+      ])
+      await addDepartment(name)
+      break
+
     case 'Exit':
       console.log('Goodbye!')
       process.exit()
-      break
   }
   //Show the main menu again after each action
   await mainMenu()
