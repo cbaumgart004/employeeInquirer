@@ -40,7 +40,46 @@ const mainMenu = async () => {
       break
 
     case 'Add employee':
-      await addEmployee()
+      // Fetch roles from the database
+      const roles = await pool.query('SELECT * FROM role')
+      const roleChoices = roles.rows.map(({ id, title }) => ({
+        name: title,
+        value: id,
+      }))
+
+      // Fetch employees to choose a manager
+      const employees = await pool.query('SELECT * FROM employee')
+      const managerChoices = employees.rows.map(
+        ({ id, first_name, last_name }) => ({
+          name: `${first_name} ${last_name}`,
+          value: id,
+        })
+      )
+
+      // Add an option for no manager
+      managerChoices.push({ name: 'None', value: null })
+
+      // Inquirer prompt to gather employee details
+      const { first_name, last_name, role_id, manager_id } =
+        await inquirer.prompt([
+          { name: 'first_name', message: 'Enter the employee’s first name:' },
+          { name: 'last_name', message: 'Enter the employee’s last name:' },
+          {
+            type: 'list',
+            name: 'role_id',
+            message: 'Select the employee’s role:',
+            choices: roleChoices,
+          },
+          {
+            type: 'list',
+            name: 'manager_id',
+            message: 'Select the employee’s manager:',
+            choices: managerChoices,
+          },
+        ])
+
+      // Pass the gathered data to the addEmployee function
+      await addEmployee(first_name, last_name, role_id, manager_id)
       break
 
     case 'Add role':
