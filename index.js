@@ -1,7 +1,7 @@
 const inquirer = require('inquirer')
 const pool = require('./db') // Import the pool for database queries
 //import functions for each inquirer prompt from helper functions below
-const { viewEmployees } = require('./lib/employee')
+const { viewEmployees, addEmployee } = require('./lib/employee')
 
 //function to start inquirer and handle user choices
 const mainMenu = async () => {
@@ -23,6 +23,10 @@ const mainMenu = async () => {
   switch (action) {
     case 'View employees':
       await viewEmployees()
+      break
+
+    case 'Add employee':
+      await addEmployee()
       break
 
     case 'Exit':
