@@ -5,6 +5,7 @@ const {
   viewEmployees,
   addEmployee,
   updateEmployeeRole,
+  deleteEmployee,
 } = require('./lib/employee')
 const { viewRoles, addRole } = require('./lib/role')
 const { viewDepartments, addDepartment } = require('./lib/department')
@@ -193,7 +194,31 @@ const mainMenu = async () => {
       console.log(`Updated employee's role successfully.`)
       break
     }
+    case 'Delete employee': {
+      // Fetch employees for selection
+      const employees = await pool.query('SELECT * FROM employee')
+      const employeeChoices = employees.rows.map(
+        ({ id, first_name, last_name }) => ({
+          name: `${first_name} ${last_name}`,
+          value: id,
+        })
+      )
 
+      // Inquirer prompt to select an employee to delete
+      const { employee_id } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'employee_id',
+          message: 'Select an employee to delete:',
+          choices: employeeChoices,
+        },
+      ])
+
+      // Pass the employee_id to the deleteEmployee function
+      await deleteEmployee(employee_id)
+      console.log(`Employee deleted successfully.`)
+      break
+    }
     case 'Exit':
       console.log('Goodbye!')
       process.exit()
