@@ -1,23 +1,7 @@
 const inquirer = require('inquirer')
 const pool = require('./db') // Import the pool for database queries
-//define functions for each inquirer prompt below
-//View employees
-async function viewEmployees() {
-  try {
-    const result = await pool.query(
-      `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, 
-                (SELECT CONCAT(e2.first_name, ' ', e2.last_name) FROM employee e2 WHERE e2.id = employee.manager_id) AS manager
-                FROM employee
-                INNER JOIN role ON employee.role_id = role.id
-                INNER JOIN department ON role.department_id = department.id`
-    )
-    //return as table format
-    console.log('Employees:')
-    console.table(result.rows)
-  } catch (error) {
-    console.error('Error retrieving employees:', error)
-  }
-}
+//import functions for each inquirer prompt from helper functions below
+const { viewEmployees } = require('./lib/employee')
 
 //function to start inquirer and handle user choices
 const mainMenu = async () => {
