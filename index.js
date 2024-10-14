@@ -1,8 +1,12 @@
 const inquirer = require('inquirer')
 const pool = require('./db') // Import the pool for database queries
 //import functions for each inquirer prompt from helper functions below
-const { viewEmployees, addEmployee, updateEmployee } = require('./lib/employee')
-const { viewRoles, addRole, updateRole } = require('./lib/role')
+const {
+  viewEmployees,
+  addEmployee,
+  updateEmployeeRole,
+} = require('./lib/employee')
+const { viewRoles, addRole } = require('./lib/role')
 const { viewDepartments, addDepartment } = require('./lib/department')
 
 // Function to start inquirer and handle user choices
@@ -115,6 +119,43 @@ const mainMenu = async () => {
       break
     }
 
+    case 'Update employee role': {
+      // Fetch roles and employees for selection
+      const roles = await pool.query('SELECT * FROM role')
+      const roleChoices = roles.rows.map(({ id, title }) => ({
+        name: title,
+        value: id,
+      }))
+
+      const employees = await pool.query('SELECT * FROM employee')
+      const employeeChoices = employees.rows.map(
+        ({ id, first_name, last_name }) => ({
+          name: `${first_name} ${last_name}`,
+          value: id,
+        })
+      )
+
+      // Inquirer prompt to select employee and role
+      const { employee_id, role_id } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'employee_id',
+          message: 'Select an employee to update their role:',
+          choices: employeeChoices,
+        },
+        {
+          type: 'list',
+          name: 'role_id',
+          message: 'Select the new role for the employee:',
+          choices: roleChoices,
+        },
+      ])
+
+      // Pass the employee_id and role_id to the updateEmployeeRole function
+      await updateEmployeeRole(employee_id, role_id)
+      console.log(`Updated employee's role successfully.`)
+      break
+    }
     case 'Update employee role': {
       // Use block scope to avoid variable re-declaration
       const roles = await pool.query('SELECT * FROM role')

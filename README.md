@@ -19,6 +19,10 @@ The repository for this code can be found [here](https://github.com/cbaumgart004
 
 - npm i inquirer@8.2.4 pg dotenv
 - This will ensure that you have the correct version of inquirer and all the Postgres dependencies, as well as the dotenv module.
+- Be sure Postgres is running, and log in to Postgres from the /db folder (psql -U postgres).
+- Enter your password
+- Once logged in as postgres, \i schema.sql, then \i seeds.sql to create, connect, then seed the database.
+- Return to the root of the project and run node index.js
 
 ## Usage
 
@@ -37,7 +41,7 @@ Within this application, Users can perform the following actions:
 ## Credits
 
 This application was was developed by [Chris Baumgart](https://github.com/cbaumgart004).  
-I struggled initially with Postgres and figuring out how to get tables joined. The documentation on the Postgres website was helpful. Specifically, this tutorial found [here](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-inner-join/). This was very helpful for getting my inquirer prompts to return multiple tables. Additonally, I found a helpful YouTube tutorial on Inquirer [here](https://www.youtube.com/watch?v=gZugKSoAyoY).
+I struggled initially with Postgres and figuring out how to get tables joined. The documentation on the Postgres website was helpful. Specifically, this tutorial found [here](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-inner-join/). This was very helpful for getting my inquirer prompts to return multiple tables, with all the joins. Additonally, I found a helpful YouTube tutorial on Inquirer [here](https://www.youtube.com/watch?v=gZugKSoAyoY).
 
 ## License
 
