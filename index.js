@@ -33,6 +33,7 @@ const mainMenu = async () => {
 
   // Switch case for each user choice
   switch (action) {
+    //view queries are handled in the respective functions
     case 'View employees':
       await viewEmployees()
       break
@@ -216,11 +217,12 @@ const mainMenu = async () => {
 
       // Pass the employee_id to the deleteEmployee function
       await deleteEmployee(employee_id)
-      console.log(`Employee deleted successfully.`)
+
       break
     }
     case 'Exit':
       console.log('Goodbye!')
+      pool.end() // Close the database connection
       process.exit()
   }
 
