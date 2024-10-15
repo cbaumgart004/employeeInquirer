@@ -35,8 +35,9 @@ Within this application, Users can perform the following actions:
 - Add a Role and assign it to a department
 - Add an Employee and assign them a role and a manager (optional)
 - Update Employee Role
-- Exit which will exit the program
+- Exit, which will exit the program
   ![Use Case](assets/EmployeeInquirerUse.jpg)
+- A Walkthrough video can be seen [here](https://github.com/cbaumgart004/employeeInquirer/blob/main/Assets/EmployeeInquirerWalkthrough.mp4). Click the "View Raw" link to download the video.
 
 ## Credits
 
